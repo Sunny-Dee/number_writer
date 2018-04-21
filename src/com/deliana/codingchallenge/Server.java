@@ -3,6 +3,8 @@ package com.deliana.codingchallenge;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Hashtable;
+import java.util.Set;
 
 public class Server {
     public static final int Q_LENGTH = 5;
@@ -10,6 +12,7 @@ public class Server {
 
     public static void main(String[] args) {
         Socket sock;
+        Hashtable<String, Integer> numbers = new Hashtable<String, Integer>();
 
         try {
             ServerSocket serverSocket = new ServerSocket(PORT, Q_LENGTH);
@@ -20,11 +23,15 @@ public class Server {
                 int connections = 0;
                 while (true) {
                     sock = serverSocket.accept();
-                    new Worker(sock).start();
+                    new Worker(sock, numbers).start();
 
                     connections++;
                     System.out.println("Just accepted a new connection. Total count: "
                             + connections);
+                    Set<String> keys = numbers.keySet();
+                    for (String key : keys){
+                        System.out.println(key);
+                    }
                 }
             } finally {
                 serverSocket.close();

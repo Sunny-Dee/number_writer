@@ -63,17 +63,11 @@ public class Client {
 
     public static void main(String[] args) {
         String hostName = parseHostName(args);
-
         System.out.println("Feeling a connection...");
-
-//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        Scanner in = new Scanner(System.in);
-
         System.out.flush();
-//            String number = in.readLine(); // TODO get input update to 9 digit num later
-//            number = addLeadingZeros(number);
-//            storeInput(number, hostName);
+        Scanner in = new Scanner(System.in);
         String inputNumber = "";
+
         boolean correctInput = false;
         while (!correctInput) {
             System.out.println("Please enter 1-9 digits");

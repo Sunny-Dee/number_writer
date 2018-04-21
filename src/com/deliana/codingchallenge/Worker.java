@@ -5,30 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Hashtable;
 
 public class Worker extends Thread {
     Socket sock;
+    Hashtable<String, Integer> numbers;
 
-    Worker(Socket s) {
-        this.sock = s;
+    Worker(Socket sock, Hashtable<String, Integer> numbers) {
+        this.sock = sock;
+        this.numbers = numbers;
     }
 
-
-//    private boolean validateInput(String input){
-//        if (!input.matches("\\d+") || input.length() > 9){
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    private String addLeadingZeros(String input) {
-//        if (input.length() < 9) {
-//            int need = 9 - input.length();
-//            String leadinZeros = new String(new char[need]).replace("\0", "0");
-//            input = leadinZeros + input;
-//        }
-//        return input;
-//    }
 
     public void run() {
 
@@ -38,24 +25,18 @@ public class Worker extends Thread {
 
             String inputNumber = in.readLine();
 
-//            while (!validateInput(inputNumber)) {
-////                out.println("Please enter 1-9 digits");
-////                inputNumber = in.readLine();
-////            }
+            if (numbers.containsKey(inputNumber)){
+                out.println("Number already in table.");
+            } else {
+                numbers.put(inputNumber, 1);
+                out.println("Got your input number: " + inputNumber +
+                        " Saving big ol' number to a log");
+            }
 
-//            boolean correctInput = false;
-//            while(true) {
-//                out.println("Please enter 1-9 digits");
-//                inputNumber = sc.next();
-//                out.println(inputNumber);
 
-//                correctInput = validateInput(inputNumber);
+//            synchronized (fw) {
+//                fw.write
 //            }
-
-
-//            inputNumber = addLeadingZeros(inputNumber);
-            out.println("Got your input number: " + inputNumber);
-            out.println("Saving big ol' number to a log");
 
             sock.close();
 
