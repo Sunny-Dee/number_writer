@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
     public static final int PORT = 4000;
@@ -17,8 +18,8 @@ public class Client {
         return args[0];
     }
 
-    private boolean validateInput(String input){
-        if (!input.matches("\\d+") || input.length() > 9){
+    private static boolean validateInput(String input) {
+        if (!input.matches("\\d+") || input.length() > 9) {
             return false;
         }
         return true;
@@ -54,30 +55,33 @@ public class Client {
 
             sock.close();
 
-        }  catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
     public static void main(String[] args) {
-       String hostName = parseHostName(args);
+        String hostName = parseHostName(args);
 
         System.out.println("Feeling a connection...");
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        Scanner in = new Scanner(System.in);
 
-
-        System.out.println("Please enter a number from 1-9");
         System.out.flush();
-        try {
-            String number = in.readLine(); // TODO get input update to 9 digit num later
-            number = addLeadingZeros(number);
-            storeInput(number, hostName);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+//            String number = in.readLine(); // TODO get input update to 9 digit num later
+//            number = addLeadingZeros(number);
+//            storeInput(number, hostName);
+        String inputNumber = "";
+        boolean correctInput = false;
+        while (!correctInput) {
+            System.out.println("Please enter 1-9 digits");
+            inputNumber = in.next();
+            correctInput = validateInput(inputNumber);
         }
+        inputNumber = addLeadingZeros(inputNumber);
+        storeInput(inputNumber, hostName);
     }
 
 }

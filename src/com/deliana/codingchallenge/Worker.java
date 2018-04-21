@@ -14,21 +14,21 @@ public class Worker extends Thread {
     }
 
 
-    private boolean validateInput(String input){
-        if (!input.matches("\\d+") || input.length() > 9){
-            return false;
-        }
-        return true;
-    }
-
-    private String addLeadingZeros(String input) {
-        if (input.length() < 9) {
-            int need = 9 - input.length();
-            String leadinZeros = new String(new char[need]).replace("\0", "0");
-            input = leadinZeros + input;
-        }
-        return input;
-    }
+//    private boolean validateInput(String input){
+//        if (!input.matches("\\d+") || input.length() > 9){
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    private String addLeadingZeros(String input) {
+//        if (input.length() < 9) {
+//            int need = 9 - input.length();
+//            String leadinZeros = new String(new char[need]).replace("\0", "0");
+//            input = leadinZeros + input;
+//        }
+//        return input;
+//    }
 
     public void run() {
 
