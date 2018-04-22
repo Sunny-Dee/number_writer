@@ -9,7 +9,7 @@ public class Server {
     private static final int Q_LENGTH = 5;
     private static final int PORT = 4000;
     private static final String LOGFILE = "logs.txt";
-    public static volatile boolean terminate = false;
+    private static volatile boolean terminate = false;
     private static Hashtable<String, Integer> numbers;
 
     public static void main(String[] args) {
@@ -32,7 +32,7 @@ public class Server {
                 int connections = 0;
                 while (!terminate) {
                     sock = serverSocket.accept();
-                    new Worker2(sock, numbers, writer).start();
+                    new Worker(sock, numbers, writer).start();
 
                     connections++;
                     System.out.println("Just accepted a new connection on worker 2. Total count: "
@@ -50,14 +50,14 @@ public class Server {
 
     }
 
-    static class Worker2 extends Thread {
+    static class Worker extends Thread {
         private Socket sock;
         Hashtable<String, Integer> numbers;
         BufferedWriter writer;
         private final Object lock;
         private static final String TERMINATE = "terminate";
 
-        Worker2(Socket sock, Hashtable<String, Integer> numbers,
+        Worker(Socket sock, Hashtable<String, Integer> numbers,
                BufferedWriter writer) {
             this.sock = sock;
             this.numbers = numbers;
@@ -113,4 +113,8 @@ public class Server {
         }
 
     }
+
+//    static class Reporter extends Thread {
+//
+//    }
 }
