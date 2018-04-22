@@ -49,7 +49,7 @@ public class Client {
         }
     }
 
-    private static void terminate(String hostname){
+    private static void terminate(String hostname) {
         try {
             Socket sock = new Socket(hostname, PORT);
             PrintStream toServer = new PrintStream(sock.getOutputStream());
@@ -73,7 +73,7 @@ public class Client {
             System.out.println("Please enter 1-9 digits");
             inputNumber = in.next();
 
-            if (inputNumber.toLowerCase().equals(TERMINATE)){
+            if (inputNumber.toLowerCase().equals(TERMINATE)) {
                 terminate(hostName);
                 return;
             }
