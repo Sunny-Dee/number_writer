@@ -63,23 +63,20 @@ public class Client {
 
     public static void main(String[] args) {
         String hostName = parseHostName(args);
-        System.out.println("Feeling a connection...");
         System.out.flush();
+
         Scanner in = new Scanner(System.in);
-        String inputNumber = "";
+        System.out.println("Please enter 1-9 digits");
+        String inputNumber = in.next();
 
-        boolean correctInput = false;
-        while (!correctInput) {
-            System.out.println("Please enter 1-9 digits");
-            inputNumber = in.next();
-
-            if (inputNumber.toLowerCase().equals(TERMINATE)) {
-                terminate(hostName);
-                return;
-            }
-            correctInput = validateInput(inputNumber);
+        if (inputNumber.toLowerCase().equals(TERMINATE)) {
+            terminate(hostName);
+            return;
         }
-        storeInput(inputNumber, hostName);
+
+        if (validateInput(inputNumber)){
+            storeInput(inputNumber, hostName);
+        }
     }
 
 }

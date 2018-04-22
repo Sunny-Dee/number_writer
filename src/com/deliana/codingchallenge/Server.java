@@ -77,7 +77,10 @@ public class Server {
                 String inputNumber = in.readLine();
 
                 if (inputNumber.equals(TERMINATE)) {
-                    terminate = true;
+                    synchronized (lock) {
+                        terminate = true;
+                    }
+
                     out.println("Terminating program");
                     return;
                 }
