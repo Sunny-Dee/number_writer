@@ -8,6 +8,7 @@ public class Worker extends Thread {
     Socket sock;
     Hashtable<String, Integer> numbers;
     BufferedWriter writer;
+    private final Object lock = new Object();
 
     Worker(Socket sock, Hashtable<String, Integer> numbers, BufferedWriter writer) {
         this.sock = sock;
@@ -18,8 +19,8 @@ public class Worker extends Thread {
     private String addLeadingZeros(String input) {
         if (input.length() < 9) {
             int need = 9 - input.length();
-            String leadinZeros = new String(new char[need]).replace("\0", "0");
-            input = leadinZeros + input;
+            String leadingZeros = new String(new char[need]).replace("\0", "0");
+            input = leadingZeros + input;
         }
         return input;
     }
@@ -38,14 +39,14 @@ public class Worker extends Thread {
             } else {
                 numbers.put(inputNumber, 1);
 
-                synchronized (this){
+                synchronized (lock){
                     writer.write(addLeadingZeros(inputNumber));
                     writer.newLine();
                     writer.flush();
                 }
 
                 out.println("Got your input number: " + inputNumber +
-                        " Saving big ol' number to a log");
+                        ". Saving big ol' number to a log");
             }
 
             sock.close();

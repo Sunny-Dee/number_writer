@@ -25,15 +25,6 @@ public class Client {
         return true;
     }
 
-//    private static String addLeadingZeros(String input) {
-//        if (input.length() < 9) {
-//            int need = 9 - input.length();
-//            String leadinZeros = new String(new char[need]).replace("\0", "0");
-//            input = leadinZeros + input;
-//        }
-//        return input;
-//    }
-
     public static void storeInput(String input, String hostname) {
         Socket sock;
         BufferedReader fromServer;
@@ -74,7 +65,6 @@ public class Client {
             inputNumber = in.next();
             correctInput = validateInput(inputNumber);
         }
-//        inputNumber = addLeadingZeros(inputNumber);
         storeInput(inputNumber, hostName);
     }
 
