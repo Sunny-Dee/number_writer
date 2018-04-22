@@ -8,7 +8,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
-    public static final int PORT = 4000;
+    private static final int PORT = 4000;
+    private static final String TERMINATE = "terminate";
 
     private static String parseHostName(String[] args) {
         if (args.length < 1) {
@@ -19,13 +20,10 @@ public class Client {
     }
 
     private static boolean validateInput(String input) {
-        if (!input.matches("\\d+") || input.length() > 9) {
-            return false;
-        }
-        return true;
+        return input.matches("\\d+") && input.length() <= 9;
     }
 
-    public static void storeInput(String input, String hostname) {
+    private static void storeInput(String input, String hostname) {
         Socket sock;
         BufferedReader fromServer;
         PrintStream toServer;
@@ -49,7 +47,18 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private static void terminate(String hostname){
+        try {
+            Socket sock = new Socket(hostname, PORT);
+            PrintStream toServer = new PrintStream(sock.getOutputStream());
+            toServer.println(TERMINATE);
+            toServer.flush();
+            sock.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -63,6 +72,11 @@ public class Client {
         while (!correctInput) {
             System.out.println("Please enter 1-9 digits");
             inputNumber = in.next();
+
+            if (inputNumber.toLowerCase().equals(TERMINATE)){
+                terminate(hostName);
+                return;
+            }
             correctInput = validateInput(inputNumber);
         }
         storeInput(inputNumber, hostName);

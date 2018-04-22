@@ -5,15 +5,20 @@ import java.net.Socket;
 import java.util.Hashtable;
 
 public class Worker extends Thread {
-    Socket sock;
+    private Socket sock;
     Hashtable<String, Integer> numbers;
     BufferedWriter writer;
-    private final Object lock = new Object();
+    private final Object lock;
+    private static final String TERMINATE = "terminate";
+    boolean terminate;
 
-    Worker(Socket sock, Hashtable<String, Integer> numbers, BufferedWriter writer) {
+    Worker(Socket sock, Hashtable<String, Integer> numbers,
+           BufferedWriter writer, boolean terminate) {
         this.sock = sock;
         this.numbers = numbers;
         this.writer = writer;
+        this.terminate = terminate;
+        lock = new Object();
     }
 
     private String addLeadingZeros(String input) {
@@ -33,6 +38,12 @@ public class Worker extends Thread {
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
             String inputNumber = in.readLine();
+
+            if (inputNumber.equals(TERMINATE)){
+                terminate = true;
+                out.println("Terminating program");
+                return;
+            }
 
             if (numbers.containsKey(inputNumber)){
                 out.println("Number already in table. Try again!");
